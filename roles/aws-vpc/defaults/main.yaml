@@ -1,0 +1,39 @@
+
+aws:
+  # AWS Credentials
+  aws_access_key: "access-key"
+  aws_secret_key: "secret-key"
+  aws_region:     "sa-east-1"
+  key_pair: "EC2-SP"
+
+
+  ## Instance
+  type: "t2.medium"
+  instance_name: "vpn"
+  image: "ami-0ad7b0031d41ed4b9"
+  # VPC Information
+  vpc_name:       "vpc-vpn"
+  vpc_cidr_block: "172.44.0.0/16"
+  
+  # For Security Group Rules
+  my_ip:          "200.186.20.18/32"
+  security_group_name: "sg-project-vpn"
+  
+
+  # Subnets
+  public_subnet_1_cidr:  "172.44.0.0/24"
+  public_subnet_2_cidr:  "172.44.1.0/24"
+
+  ############################
+  # Used in parts 2 and 3    #
+  ############################
+  
+  # Subnets
+  private_subnet_1_cidr: "172.44.2.0/24"
+  private_subnet_2_cidr: "172.44.3.0/24"
+  
+  ############################
+  # Used in part 3 only      #
+  ############################
+
+  enviroment_name: "project-vpn"

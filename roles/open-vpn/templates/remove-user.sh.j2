@@ -1,0 +1,6 @@
+#!/bin/bash
+
+USERNAME=$1
+OVPN_DATA="/mnt/app/openvpn"
+
+docker run --rm -it -v $OVPN_DATA:/etc/openvpn kylemanna/openvpn ovpn_revokeclient $USERNAME remove

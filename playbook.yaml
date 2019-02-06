@@ -1,0 +1,25 @@
+---
+###########################
+# Setup OPEN-VPN
+###########################
+
+- name: "AWS | Provisioned Infra"
+  hosts: localhost
+  gather_facts: True
+  roles:
+    - aws-vpc
+  tags:
+    - infra
+
+- name: "AWS | Install Docker"
+  hosts: docker
+  become: True
+  remote_user: ec2-user
+  vars:
+    ansible_private_key_file: "~/Downloads/EC2-SP"
+  gather_facts: True
+  roles:
+    - docker
+    - open-vpn
+  tags:
+    - app

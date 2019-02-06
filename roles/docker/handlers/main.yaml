@@ -1,0 +1,5 @@
+---
+
+  - name: "Centos Repo Extras"
+    shell: "yum makecache fast"
+    listen: "create makecache"

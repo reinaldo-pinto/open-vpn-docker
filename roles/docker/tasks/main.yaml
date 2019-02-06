@@ -1,0 +1,34 @@
+---
+# - name: "Install Container-Selinux"
+#   command: yum install -q -y http://mirror.centos.org/centos/7/extras/x86_64/Packages/container-selinux-2.42-1.gitad8f0f7.el7.noarch.rpm
+
+- template:
+    src: centos.repo.j2
+    dest: /etc/yum.repos.d/centos.repo
+  notify:
+    - "create makecache"
+
+- name: force create a cache yum repo
+  meta: flush_handlers
+
+- name: "Yum repo"
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  notify:
+    - "create makecache"
+
+- name: force create a cache yum repo
+  meta: flush_handlers
+  
+- name: Docker | Install dependencies
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - container-selinux
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+    - docker-ce
+
+- name: "Make sure Docker Running"
+  systemd: state=started name=docker enabled=yes

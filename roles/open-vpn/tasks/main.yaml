@@ -1,0 +1,49 @@
+---
+
+- filesystem:
+    fstype: ext4
+    dev: /dev/xvdf
+
+- name: Mount up device by label
+  mount:
+    path: /mnt/app
+    src: /dev/xvdf
+    fstype: ext4
+    state: mounted
+
+   
+- file:
+    path: /mnt/app/scripts
+    state: directory
+    mode: 0755
+
+- template:
+    src: create-user.sh.j2
+    dest: /mnt/app/scripts/create-user.sh
+    mode: 0755
+- template:
+    src: remove-user.sh.j2
+    dest: /mnt/app/scripts/remove-user.sh
+    mode: 0755
+
+- name: "Instalando pacotes necessários..."
+  yum: name="{{ item }}" state=present
+  with_items:
+    - docker-python
+    - python-docker-py
+
+
+- name: OpenVPN | Start Container
+  docker_container:
+    name: openvpn
+    image: kylemanna/openvpn
+    capabilities: "NET_ADMIN"
+    detach: true
+    state: started
+    privileged: yes
+    restart: yes
+    restart_policy: always
+    ports:
+    - "1194:1194/udp"
+    volumes:
+    - /mnt/app/openvpn:/etc/openvpn
