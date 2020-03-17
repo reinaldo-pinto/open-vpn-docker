@@ -48,3 +48,8 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 
 ```
+
+Running Container:
+```
+docker run -d --memory=6g --cpus=3 -p 1194:1194/udp --privileged -e DEBUG=1  --name openvpn -v $OVPN_DATA:/etc/openvpn --log-driver=none kylemanna/openvpn
+```
